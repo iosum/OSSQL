@@ -1,0 +1,47 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    color: #595E68;
+}
+
+body {
+    background: #F3F6FC;
+}
+
+.copy-btn {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: -0.2px;
+    color: #9DA2AD;
+}
+
+.copy-btn-active {
+    color: #329656;
+}
+
+textarea {
+    padding: 12px;
+    color: #26282C;
+    border: 1px solid #ccc;
+    width: 100%;
+    height: 30%;
+}
+
+textarea.sql-script,
+textarea.sql-script-output {
+    height: 70vh;
+}
+
+#submit-btn {
+    background: #2F6CEC;
+    border-radius: 20px;
+}
+
+#submit-btn:hover {
+    color: #2F6CEC;
+    background: #F3F6FC;
+}
