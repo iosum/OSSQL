@@ -1,47 +1,66 @@
+:root {
+    --background-color: #F3F6FC;
+    --text-color: #595E68;
+    --span-text-color: #9DA2AD;
+    --span-active-text-color: #329656;
+    --btn-primary-background-color: #2F6CEC;
+    --textarea-border-color: #ccc;
+    --textarea-text-color: #26282C;
+}
+
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    color: #595E68;
+    color: var(--text-color);
 }
 
 body {
-    background: #F3F6FC;
+    background: var(--background-color);
 }
 
-.copy-btn {
+/*
+    span text color
+*/
+.copy-text {
     font-weight: 500;
     font-size: 12px;
     line-height: 20px;
     letter-spacing: -0.2px;
-    color: #9DA2AD;
+    color: var(--span-text-color);
 }
 
-.copy-btn-active {
-    color: #329656;
+.copy-text-active {
+    color: var(--span-active-text-color);
 }
 
+/*
+    Textarea
+*/
 textarea {
     padding: 12px;
-    color: #26282C;
-    border: 1px solid #ccc;
+    color: var(--textarea-text-color);
+    border: 1px solid var(--textarea-border-color);
     width: 100%;
-    height: 30%;
+    height: 20%;
 }
 
 textarea.sql-script,
 textarea.sql-script-output {
-    height: 70vh;
+    height: 60vh;
 }
 
+/*
+    Submit Btn
+*/
 #submit-btn {
-    background: #2F6CEC;
+    background: var(--btn-primary-background-color);
     border-radius: 20px;
 }
 
 #submit-btn:hover {
-    color: #2F6CEC;
-    background: #F3F6FC;
+    color: var(--btn-primary-background-color);
+    background: var(--background-color);
 }

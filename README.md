@@ -1,13 +1,22 @@
-- Table
-- Stored Procedure
-- View
-- Function
+# OSSQL
 
-```json
-{
-    "TableName":[{"Table1", "Table2", "Table3", "Table4", "Table5"}],
-    "StoredProcedure": [{"sp_Sp1", "sp_Sp2, sp_Sp3"}],
-    "View": [{"vw_View1", "vw_View2, vw_View3"}],
-    "Function": [{"fn_Function1", "fn_Function2", "fn_Function3"}]
-}
-```
+Convert the MSSQL back to OutSystems SQL widget's sql.
+
+![Imgur](https://i.imgur.com/KPozvZG.png)
+
+## Before We Start
+
+In the first textarea, type the table name with string concatenation using a comma. e.g. Table1, Table2
+
+## Features
+
+- Replace square brackets with curly brackets and wrap table names
+
+## To-do
+
+- Test cases
+  - Stored Procedure
+  - Views
+  - Functions
+- Dynamically get table names via input
+- Host the project on my website
