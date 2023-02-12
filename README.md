@@ -1,8 +1,8 @@
 # OSSQL
 
-Convert the MSSQL back to OutSystems SQL widget's sql.
+[Website](https://caseyho.dev/OSSQL/)
 
-![Imgur](https://i.imgur.com/KPozvZG.png)
+Convert the MSSQL back to OutSystems SQL widget's sql.
 
 ## Before We Start
 
@@ -10,7 +10,7 @@ In the first textarea, type the table name with string concatenation using a com
 
 ## Features
 
-- Replace square brackets with curly brackets and wrap table names
+- Wrap table names with curly brackets
 
 ## To-do
 
@@ -19,4 +19,5 @@ In the first textarea, type the table name with string concatenation using a com
   - Views
   - Functions
 - Dynamically get table names via input
-- Host the project on my website
+- Add a demo page
+~~- Host the project on my website~~
