@@ -19,5 +19,7 @@ In the first textarea, type the table name with string concatenation using a com
   - Views
   - Functions
 - Dynamically get table names via input
+
 - Add a demo page
+  
 ~~- Host the project on my website~~

@@ -27,6 +27,30 @@ function wrapColumnsWithBrackets(sql, tableColumn) {
   return sql;
 }
 
+function removeDboWordsAndBrackets(sql, tableColumn) {
+  tableColumn.forEach(function (column) {
+    let regex = new RegExp(
+      "\\[dbo\\]\\.\\[(" + column + ")\\]|dbo.\\[(" + column + ")\\]",
+      "gm"
+    );
+    sql = sql.replace(regex, "$1$2");
+  });
+
+  return sql;
+}
+
+function removeDboKeyword(sql, tableColumn) {
+  tableColumn.forEach(function (column) {
+    let regex = new RegExp(
+      "dbo\\.\\[(" + column + ")\\]|\\[(" + column + ")\\]|(" + column + ")",
+      "gm"
+    );
+    sql = sql.replace(regex, "$1$2$3");
+  });
+
+  return sql;
+}
+
 /**
  * This function calls removeDboWords() and wrapColumnsWithBrackets() to format a SQL statement.
  * @param {*} sql
@@ -34,7 +58,11 @@ function wrapColumnsWithBrackets(sql, tableColumn) {
  * @returns
  */
 function formatSQL(sql, tableColumn) {
-  sql = removeDboWords(sql);
+  //sql = removeDboWords(sql);
+
+  sql = removeDboWordsAndBrackets(sql, tableColumn);
+  //sql = removeDboKeyword(sql, tableColumn);
+
   sql = wrapColumnsWithBrackets(sql, tableColumn);
   return sql;
 }
