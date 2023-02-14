@@ -1,25 +1,15 @@
 /**
- * This function removes the string '[dbo].' from a SQL statement.
- * [dbo].[Table1] => [Table1]
- * @param {*} sql
- * @returns
+ * wrapTableColumnsWithBrackets - A function to wrap table columns with curly braces
+ *
+ * @param {string} sql - The SQL string
+ * @param {array} tableColumn - The array of table columns
+ * @returns {string} The SQL string with table columns wrapped with curly braces
  */
-function removeDboWords(sql) {
-  return sql.replace(/\[dbo\]\./g, "");
-}
-
-/**
- * This function wraps the table columns in curly braces ({}) if they are not already wrapped.
- * The table columns to be wrapped are passed as an argument to the function.
- * @param {*} sql
- * @param {*} tableColumn
- * @returns
- */
-function wrapColumnsWithBrackets(sql, tableColumn) {
+function wrapTableColumnsWithBrackets(sql, tableColumn) {
   tableColumn.forEach(function (column) {
     let regex = new RegExp(
       "(\\[(" + column + ")\\])|(" + column + ")(?![^\\{\\}]*\\})",
-      "gm"
+      "gmi"
     );
     sql = sql.replace(regex, "{$2$3}");
   });
@@ -27,11 +17,19 @@ function wrapColumnsWithBrackets(sql, tableColumn) {
   return sql;
 }
 
-function removeDboWordsAndBrackets(sql, tableColumn) {
+/**
+ * Remove dbo. and brackets surrounding it for specified columns in the table
+ *
+ * @param {string} sql - SQL statement
+ * @param {array} tableColumn - List of columns to remove dbo. from
+ *
+ * @return {string} - SQL statement with dbo. and brackets removed for specified columns
+ */
+function removeDboAndBracketsFromColumns(sql, tableColumn) {
   tableColumn.forEach(function (column) {
     let regex = new RegExp(
       "\\[dbo\\]\\.\\[(" + column + ")\\]|dbo.\\[(" + column + ")\\]",
-      "gm"
+      "gmi"
     );
     sql = sql.replace(regex, "$1$2");
   });
@@ -39,16 +37,15 @@ function removeDboWordsAndBrackets(sql, tableColumn) {
   return sql;
 }
 
-function removeDboKeyword(sql, tableColumn) {
-  tableColumn.forEach(function (column) {
-    let regex = new RegExp(
-      "dbo\\.\\[(" + column + ")\\]|\\[(" + column + ")\\]|(" + column + ")",
-      "gm"
-    );
-    sql = sql.replace(regex, "$1$2$3");
-  });
-
-  return sql;
+/**
+ * Remove 'dbo.' prefix for table columns in SQL string
+ * @param {string} sql - The SQL string to modify
+ * @param {Array} tableColumn - An array of table column names
+ * @returns {string} - The modified SQL string with 'dbo.' prefix removed
+ */
+function removeDboPrefixForTableColumns(sql, tableColumn) {
+  let regex = new RegExp("dbo\\.(" + tableColumn.join("|") + ")", "gi");
+  return sql.replace(regex, "$1");
 }
 
 /**
@@ -58,12 +55,9 @@ function removeDboKeyword(sql, tableColumn) {
  * @returns
  */
 function formatSQL(sql, tableColumn) {
-  //sql = removeDboWords(sql);
-
-  sql = removeDboWordsAndBrackets(sql, tableColumn);
-  //sql = removeDboKeyword(sql, tableColumn);
-
-  sql = wrapColumnsWithBrackets(sql, tableColumn);
+  sql = removeDboPrefixForTableColumns(sql, tableColumn);
+  sql = removeDboAndBracketsFromColumns(sql, tableColumn);
+  sql = wrapTableColumnsWithBrackets(sql, tableColumn);
   return sql;
 }
 
