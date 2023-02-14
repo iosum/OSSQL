@@ -49,7 +49,8 @@ function removeDboPrefixForTableColumns(sql, tableColumn) {
 }
 
 /**
- * This function calls removeDboWords() and wrapColumnsWithBrackets() to format a SQL statement.
+ * Format SQL - a function to format a SQL statement by calling `removeDBOPrefix()`, `removeDBOAndBrackets()`, and `wrapTableColumnsWithBrackets()`
+ *
  * @param {*} sql
  * @param {*} tableColumn
  * @returns
@@ -64,31 +65,49 @@ function formatSQL(sql, tableColumn) {
 /**
  * This function enables users to copy the contents of a text area by clicking on it.
  * A feedback message is displayed to confirm that the text has been copied to the clipboard.
- * @param {*} textarea
+ * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
  */
-function copyTextOnClick(obj) {
-  $(obj).click(function () {
-    const selectedText = $(this).val();
-    const tempInput = $("<textarea>");
-    $("body").append(tempInput);
-    tempInput.val(selectedText);
-    tempInput.select();
-    document.execCommand("copy");
-    tempInput.remove();
-    addActiveClass();
+function copyTextOnClick(textarea) {
+  $(textarea).click(function () {
+    copySelectedText(this);
   });
 }
 
 /**
- * This function adds a class named copy-text-active to an element and changes its text to "Copied text to clipboard!" for 5 seconds.
+ * Copies the selected text in the text area to the clipboard.
+ * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
  */
-function addActiveClass() {
-  $(".copy-text").addClass("copy-text-active");
-  $(".copy-text").text("Copied text to clipboard!");
+function copySelectedText(textarea) {
+  const selectedText = $(textarea).val();
+  const tempInput = $("<textarea>");
+  $("body").append(tempInput);
+  tempInput.val(selectedText);
+  tempInput.select();
+  document.execCommand("copy");
+  tempInput.remove();
+  addCopyTextClass(
+    ".copy-text",
+    "copy-text-active",
+    "Copied text to clipboard!",
+    5000
+  );
+}
+
+/**
+ * addCopyTextClass - A function to add a class to an element and change its text
+ *
+ * @param {Element} element - The element to add class to
+ * @param {string} className - The class name to add
+ * @param {string} text - The text to change to
+ * @param {number} timeout - The time in milliseconds to wait before removing class and changing text back
+ */
+function addCopyTextClass(element, className, text, timeout) {
+  $(element).addClass(className);
+  $(element).text(text);
   setTimeout(function () {
-    $(".copy-text").removeClass("copy-text-active");
-    $(".copy-text").text("Click to copy");
-  }, 5000);
+    $(element).removeClass(className);
+    $(element).text("Click to copy");
+  }, timeout);
 }
 
 /**
@@ -123,20 +142,24 @@ function trimString(str) {
 }
 
 /**
- * This function calls formatSQL when the submit button is clicked.
- * The SQL statement and table columns are retrieved from the form fields, and the formatted SQL statement is displayed in the output text area.
+ * This function formats and displays the SQL statement in the output text area
+ * when the submit button is clicked.
  */
 function submitBtnClicked() {
   $("#submit-btn").click(function () {
     const sql = $(".sql-script").val();
     let tableArray = $(".table-column").val();
     tableArray = trimString(tableArray);
-    if (tableArray != "") {
+
+    // If table columns are specified, format the SQL statement with the columns.
+    if (tableArray !== "") {
       let tableColumns = splitTextIntoArray(tableArray);
       tableColumns = sortByLengthDescending(tableColumns);
       const formattedSQL = formatSQL(sql, tableColumns);
       $(".sql-script-output").val(formattedSQL);
-    } else {
+    }
+    // If no table columns are specified, display the original SQL statement.
+    else {
       $(".sql-script-output").val(sql);
     }
   });
