@@ -8,7 +8,7 @@
 function wrapTableColumnsWithBrackets(sql, tableColumn) {
   tableColumn.forEach(function (column) {
     let regex = new RegExp(
-      "(\\[(" + column + ")\\])|(" + column + ")(?![^\\{\\}]*\\})",
+      "(\\[(" + column + ")\\])|\\b(" + column + ")\\b(?![^\\{\\}]*\\})",
       "gmi"
     );
     sql = sql.replace(regex, "{$2$3}");
