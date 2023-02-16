@@ -5,7 +5,7 @@
  * @param {array} tableColumn - The array of table columns
  * @returns {string} The SQL string with table columns wrapped with curly braces
  */
-function wrapTableColumnsWithBrackets(sql, tableColumn) {
+export function wrapTableColumnsWithBrackets(sql, tableColumn) {
   tableColumn.forEach(function (column) {
     let regex = new RegExp(
       "(\\[(" + column + ")\\])|\\b(" + column + ")\\b(?![^\\{\\}]*\\})",
@@ -25,7 +25,7 @@ function wrapTableColumnsWithBrackets(sql, tableColumn) {
  *
  * @return {string} - SQL statement with dbo. and brackets removed for specified columns
  */
-function removeDboAndBracketsFromColumns(sql, tableColumn) {
+export function removeDboAndBracketsFromColumns(sql, tableColumn) {
   tableColumn.forEach(function (column) {
     let regex = new RegExp(
       "\\[dbo\\]\\.\\[(" + column + ")\\]|dbo.\\[(" + column + ")\\]",
@@ -67,7 +67,7 @@ function formatSQL(sql, tableColumn) {
  * A feedback message is displayed to confirm that the text has been copied to the clipboard.
  * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
  */
-function copyTextOnClick(textarea) {
+export function copyTextOnClick(textarea) {
   $(textarea).click(function () {
     copySelectedText(this);
   });
@@ -145,7 +145,7 @@ function trimString(str) {
  * This function formats and displays the SQL statement in the output text area
  * when the submit button is clicked.
  */
-function submitBtnClicked() {
+export function submitBtnClicked() {
   $("#submit-btn").click(function () {
     const sql = $(".sql-script").val();
     let tableArray = $(".table-column").val();
@@ -165,8 +165,8 @@ function submitBtnClicked() {
   });
 }
 
-$(".sql-script").val("");
-$(".sql-script-output").val("");
-$(".table-column").val("");
-submitBtnClicked();
-copyTextOnClick($(".sql-script-output"));
+// $(".sql-script").val("");
+// $(".sql-script-output").val("");
+// $(".table-column").val("");
+// submitBtnClicked();
+// copyTextOnClick($(".sql-script-output"));
