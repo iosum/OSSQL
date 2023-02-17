@@ -43,9 +43,11 @@ export function removeDboAndBracketsFromColumns(sql, tableColumn) {
  * @param {Array} tableColumn - An array of table column names
  * @returns {string} - The modified SQL string with 'dbo.' prefix removed
  */
-function removeDboPrefixForTableColumns(sql, tableColumn) {
+export function removeDboPrefixForTableColumns(sql, tableColumn) {
   let regex = new RegExp("dbo\\.(" + tableColumn.join("|") + ")", "gi");
-  return sql.replace(regex, "$1");
+  let regex2 = new RegExp("\\[dbo\\]\\.(" + tableColumn.join("|") + ")", "gi");
+  sql = sql.replace(regex, "$1");
+  return sql.replace(regex2, "$1");
 }
 
 /**
@@ -164,9 +166,3 @@ export function submitBtnClicked() {
     }
   });
 }
-
-// $(".sql-script").val("");
-// $(".sql-script-output").val("");
-// $(".table-column").val("");
-// submitBtnClicked();
-// copyTextOnClick($(".sql-script-output"));

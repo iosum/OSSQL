@@ -1,4 +1,7 @@
-import { wrapTableColumnsWithBrackets } from "../src/functions";
+import {
+  wrapTableColumnsWithBrackets,
+  removeDboPrefixForTableColumns,
+} from "../src/functions";
 describe("wrapTableColumnsWithBrackets", () => {
   it("將 table 加上大括弧", () => {
     const sql = "SELECT name, age FROM users WHERE id = 1";
@@ -93,6 +96,24 @@ describe("wrapTableColumnsWithBrackets", () => {
     const expected =
       "SELECT name, age FROM {#Table1} INNER JOIN {Table12} ON {Table12}.Id = {#Table1}.Id";
     const result = wrapTableColumnsWithBrackets(sql, tableColumns);
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("removeDboAndBracketsFromColumns", () => {
+  it("移除 dbo.", () => {
+    const sql = "SELECT name, age FROM dbo.users WHERE dbo.users.id = 1";
+    const tableColumns = ["users"];
+    const expected = "SELECT name, age FROM users WHERE users.id = 1";
+    const result = removeDboPrefixForTableColumns(sql, tableColumns);
+    expect(result).toEqual(expected);
+  });
+
+  it("移除 [dbo].", () => {
+    const sql = "SELECT name, age FROM [dbo].users WHERE id = 1";
+    const tableColumns = ["users"];
+    const expected = "SELECT name, age FROM users WHERE id = 1";
+    const result = removeDboPrefixForTableColumns(sql, tableColumns);
     expect(result).toEqual(expected);
   });
 });
