@@ -6,48 +6,29 @@
  * @returns {string} The SQL string with table columns wrapped with curly braces
  */
 export function wrapTableColumnsWithBrackets(sql, tableColumn) {
-  tableColumn.forEach(function (column) {
-    let regex = new RegExp(
-      "(\\[(" + column + ")\\])|\\b(" + column + ")\\b(?![^\\{\\}]*\\})",
-      "gmi"
-    );
-    sql = sql.replace(regex, "{$2$3}");
-  });
+    tableColumn.forEach(function (column) {
+        let regex = new RegExp(
+            '(\\[(' + column + ')\\])|\\b(' + column + ')\\b(?![^\\{\\}]*\\})',
+            'gmi'
+        );
+        sql = sql.replace(regex, '{$2$3}');
+    });
 
-  return sql;
+    return sql;
 }
 
 /**
- * Remove dbo. and brackets surrounding it for specified columns in the table
- *
- * @param {string} sql - SQL statement
- * @param {array} tableColumn - List of columns to remove dbo. from
- *
- * @return {string} - SQL statement with dbo. and brackets removed for specified columns
- */
-export function removeDboAndBracketsFromColumns(sql, tableColumn) {
-  tableColumn.forEach(function (column) {
-    let regex = new RegExp(
-      "\\[dbo\\]\\.\\[(" + column + ")\\]|dbo.\\[(" + column + ")\\]",
-      "gmi"
-    );
-    sql = sql.replace(regex, "$1$2");
-  });
-
-  return sql;
-}
-
-/**
- * Remove 'dbo.' prefix for table columns in SQL string
- * @param {string} sql - The SQL string to modify
- * @param {Array} tableColumn - An array of table column names
- * @returns {string} - The modified SQL string with 'dbo.' prefix removed
+ * Removes "dbo." prefix from table columns in SQL query.
+ * @param {string} sql - SQL query string.
+ * @param {string[]} tableColumn - Array of table column names.
+ * @returns {string} SQL query string with "dbo." prefix removed.
  */
 export function removeDboPrefixForTableColumns(sql, tableColumn) {
-  let regex = new RegExp("dbo\\.(" + tableColumn.join("|") + ")", "gi");
-  let regex2 = new RegExp("\\[dbo\\]\\.(" + tableColumn.join("|") + ")", "gi");
-  sql = sql.replace(regex, "$1");
-  return sql.replace(regex2, "$1");
+    let regex = new RegExp(
+        '(\\[dbo\\]\\.)?(dbo\\.)?(\\[?' + tableColumn.join('|') + '\\]?)',
+        'gi'
+    );
+    return sql.replace(regex, '$3');
 }
 
 /**
@@ -58,10 +39,9 @@ export function removeDboPrefixForTableColumns(sql, tableColumn) {
  * @returns
  */
 function formatSQL(sql, tableColumn) {
-  sql = removeDboPrefixForTableColumns(sql, tableColumn);
-  sql = removeDboAndBracketsFromColumns(sql, tableColumn);
-  sql = wrapTableColumnsWithBrackets(sql, tableColumn);
-  return sql;
+    sql = removeDboPrefixForTableColumns(sql, tableColumn);
+    sql = wrapTableColumnsWithBrackets(sql, tableColumn);
+    return sql;
 }
 
 /**
@@ -70,9 +50,9 @@ function formatSQL(sql, tableColumn) {
  * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
  */
 export function copyTextOnClick(textarea) {
-  $(textarea).click(function () {
-    copySelectedText(this);
-  });
+    $(textarea).click(function () {
+        copySelectedText(this);
+    });
 }
 
 /**
@@ -80,19 +60,19 @@ export function copyTextOnClick(textarea) {
  * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
  */
 function copySelectedText(textarea) {
-  const selectedText = $(textarea).val();
-  const tempInput = $("<textarea>");
-  $("body").append(tempInput);
-  tempInput.val(selectedText);
-  tempInput.select();
-  document.execCommand("copy");
-  tempInput.remove();
-  addCopyTextClass(
-    ".copy-text",
-    "copy-text-active",
-    "Copied text to clipboard!",
-    5000
-  );
+    const selectedText = $(textarea).val();
+    const tempInput = $('<textarea>');
+    $('body').append(tempInput);
+    tempInput.val(selectedText);
+    tempInput.select();
+    document.execCommand('copy');
+    tempInput.remove();
+    addCopyTextClass(
+        '.copy-text',
+        'copy-text-active',
+        'Copied text to clipboard!',
+        5000
+    );
 }
 
 /**
@@ -104,12 +84,12 @@ function copySelectedText(textarea) {
  * @param {number} timeout - The time in milliseconds to wait before removing class and changing text back
  */
 function addCopyTextClass(element, className, text, timeout) {
-  $(element).addClass(className);
-  $(element).text(text);
-  setTimeout(function () {
-    $(element).removeClass(className);
-    $(element).text("Click to copy");
-  }, timeout);
+    $(element).addClass(className);
+    $(element).text(text);
+    setTimeout(function () {
+        $(element).removeClass(className);
+        $(element).text('Click to copy');
+    }, timeout);
 }
 
 /**
@@ -118,9 +98,9 @@ function addCopyTextClass(element, className, text, timeout) {
  * @returns A new array of strings sorted in descending order based on their length.
  */
 function sortByLengthDescending(arr) {
-  return arr.sort(function (a, b) {
-    return b.length - a.length;
-  });
+    return arr.sort(function (a, b) {
+        return b.length - a.length;
+    });
 }
 
 /**
@@ -129,9 +109,9 @@ function sortByLengthDescending(arr) {
  * @returns
  */
 function splitTextIntoArray(text) {
-  return $.map(text.split(","), function (element) {
-    return $.trim(element);
-  });
+    return $.map(text.split(','), function (element) {
+        return $.trim(element);
+    });
 }
 
 /**
@@ -140,7 +120,7 @@ function splitTextIntoArray(text) {
  * @returns
  */
 function trimString(str) {
-  return $.trim(str).replace(/^,|,$/g, "");
+    return $.trim(str).replace(/^,|,$/g, '');
 }
 
 /**
@@ -148,21 +128,21 @@ function trimString(str) {
  * when the submit button is clicked.
  */
 export function submitBtnClicked() {
-  $("#submit-btn").click(function () {
-    const sql = $(".sql-script").val();
-    let tableArray = $(".table-column").val();
-    tableArray = trimString(tableArray);
+    $('#submit-btn').click(function () {
+        const sql = $('.sql-script').val();
+        let tableArray = $('.table-column').val();
+        tableArray = trimString(tableArray);
 
-    // If table columns are specified, format the SQL statement with the columns.
-    if (tableArray !== "") {
-      let tableColumns = splitTextIntoArray(tableArray);
-      tableColumns = sortByLengthDescending(tableColumns);
-      const formattedSQL = formatSQL(sql, tableColumns);
-      $(".sql-script-output").val(formattedSQL);
-    }
-    // If no table columns are specified, display the original SQL statement.
-    else {
-      $(".sql-script-output").val(sql);
-    }
-  });
+        // If table columns are specified, format the SQL statement with the columns.
+        if (tableArray !== '') {
+            let tableColumns = splitTextIntoArray(tableArray);
+            tableColumns = sortByLengthDescending(tableColumns);
+            const formattedSQL = formatSQL(sql, tableColumns);
+            $('.sql-script-output').val(formattedSQL);
+        }
+        // If no table columns are specified, display the original SQL statement.
+        else {
+            $('.sql-script-output').val(sql);
+        }
+    });
 }
