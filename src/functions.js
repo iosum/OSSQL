@@ -32,19 +32,6 @@ export function removeDboPrefixForTableColumns(sql, tableColumn) {
 }
 
 /**
- * Format SQL - a function to format a SQL statement by calling `removeDBOPrefix()`, `removeDBOAndBrackets()`, and `wrapTableColumnsWithBrackets()`
- *
- * @param {*} sql
- * @param {*} tableColumn
- * @returns
- */
-function formatSQL(sql, tableColumn) {
-    sql = removeDboPrefixForTableColumns(sql, tableColumn);
-    sql = wrapTableColumnsWithBrackets(sql, tableColumn);
-    return sql;
-}
-
-/**
  * This function enables users to copy the contents of a text area by clicking on it.
  * A feedback message is displayed to confirm that the text has been copied to the clipboard.
  * @param {HTMLTextAreaElement} textarea The text area element to copy text from.
@@ -97,10 +84,13 @@ function addCopyTextClass(element, className, text, timeout) {
  * @param {An array of strings to sort.} arr
  * @returns A new array of strings sorted in descending order based on their length.
  */
-function sortByLengthDescending(arr) {
-    return arr.sort(function (a, b) {
-        return b.length - a.length;
-    });
+export function sortByLengthDescending(arr) {
+    if (arr.length > 0) {
+        return arr.sort(function (a, b) {
+            return b.length - a.length;
+        });
+    }
+    return arr;
 }
 
 /**
@@ -108,10 +98,13 @@ function sortByLengthDescending(arr) {
  * @param {*} text
  * @returns
  */
-function splitTextIntoArray(text) {
-    return $.map(text.split(','), function (element) {
-        return $.trim(element);
-    });
+export function splitTextIntoArray(text) {
+    if (text.length > 0) {
+        return $.map(text.split(','), function (element) {
+            return $.trim(element);
+        });
+    }
+    return '';
 }
 
 /**
@@ -119,8 +112,11 @@ function splitTextIntoArray(text) {
  * @param {*} str
  * @returns
  */
-function trimString(str) {
-    return $.trim(str).replace(/^,|,$/g, '');
+export function trimString(str) {
+    if (str.length > 0) {
+        return $.trim(str).replace(/^,|,$/g, '');
+    }
+    return str;
 }
 
 /**
