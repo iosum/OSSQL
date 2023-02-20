@@ -1,6 +1,4 @@
 import {
-    submitBtnClicked,
-    copyTextOnClick,
     trimString,
     removeDboPrefixForTableColumns,
     wrapTableColumnsWithBrackets,
@@ -11,7 +9,6 @@ import {
 $('.sql-script').val('');
 $('.sql-script-output').val('');
 $('.table-column').val('');
-//submitBtnClicked();
 
 $('#submit-btn').click(function () {
     const sql = $('.sql-script').val();
@@ -32,4 +29,20 @@ $('#submit-btn').click(function () {
         $('.sql-script-output').val(sql);
     }
 });
-copyTextOnClick($('.sql-script-output'));
+
+$('.sql-script-output').click(function () {
+    const selectedText = $(this).val();
+    const tempInput = $('<textarea>');
+    $('body').append(tempInput);
+    tempInput.val(selectedText);
+    tempInput.select();
+    document.execCommand('copy');
+    tempInput.remove();
+
+    $('.copy-text').addClass('copy-text-active');
+    $('.copy-text').text('Copied text to clipboard!');
+    setTimeout(function () {
+        $('.copy-text').removeClass('copy-text-active');
+        $('.copy-text').text('Click to copy');
+    }, 5000);
+});
