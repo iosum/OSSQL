@@ -24,11 +24,14 @@ export function wrapTableColumnsWithBrackets(sql, tableColumn) {
  * @returns {string} SQL query string with "dbo." prefix removed.
  */
 export function removeDboPrefixForTableColumns(sql, tableColumn) {
-    let regex = new RegExp(
-        '(\\[dbo\\]\\.)?(dbo\\.)?(\\[?' + tableColumn.join('|') + '\\]?)',
-        'gi'
-    );
-    return sql.replace(regex, '$3');
+    if (tableColumn.length > 0) {
+        let regex = new RegExp(
+            '(\\[dbo\\]\\.)?(dbo\\.)?(\\[?' + tableColumn.join('|') + '\\]?)',
+            'gi'
+        );
+        return sql.replace(regex, '$3');
+    }
+    return sql;
 }
 
 /**
@@ -65,8 +68,9 @@ export function splitTextIntoArray(text) {
  * @returns
  */
 export function trimString(str) {
-    if (str.length > 0) {
+    debugger;
+    if (str.length > 0 && str != ' ') {
         return $.trim(str).replace(/^,|,$/g, '');
     }
-    return str;
+    return '';
 }
