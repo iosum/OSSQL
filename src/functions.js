@@ -68,7 +68,6 @@ export function splitTextIntoArray(text) {
  * @returns
  */
 export function trimString(str) {
-    debugger;
     if (str.length > 0 && str != ' ') {
         return $.trim(str).replace(/^,|,$/g, '');
     }
